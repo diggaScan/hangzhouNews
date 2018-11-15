@@ -1,0 +1,35 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="toolbar_theme" >
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="drawerArrowStyle">@style/drawerArrowStyle</item>`
+        <item name="actionMenuTextColor">@color/white</item>
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+        <item name="android:colorBackground">@color/colorPrimary</item>
+    </style>
+
+    <style name="drawerArrowStyle" parent="Base.Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="android:color">@color/white</item>
+    </style>
+
+    <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="overlapAnchor">false</item>
+    </style>
+
+    <style name="popmenu_animation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/popup_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/popup_fade_out</item>
+    </style>
+
+</resources>

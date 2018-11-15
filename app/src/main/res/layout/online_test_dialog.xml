@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/online_test_dialog_corner">
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/title"
+        android:textSize="18sp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:textColor="@color/red"
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:maxEms="5" />
+    <View
+        android:background="@color/divider_color"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <RelativeLayout
+        android:id="@+id/button_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <Button
+            android:background="@null"
+            android:id="@+id/cancel_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/divide_line"
+            android:text="取消"
+            android:textColor="@color/med_color_primary" />
+
+        <View
+            android:background="@color/divider_color"
+            android:id="@+id/divide_line"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:background="@null"
+            android:id="@+id/confirm_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/divide_line"
+            android:text="确定"
+            android:textColor="@color/colorPrimary" />
+    </RelativeLayout>
+
+
+</LinearLayout>

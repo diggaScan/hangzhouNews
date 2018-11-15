@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorAccent">#ff39bbff</color>
+    <color name="colorPrimary">#ff39bbff</color>
+    <color name="colorPrimaryDark">#ff39bbff</color>
+    <color name="setting_common_bg">#ffe5e5e5</color>
+    <color name="setting_common_line">#ffd1d1d1</color>
+    <dimen name="alert_dialog_button_height_size">48dp</dimen>
+    <dimen name="alert_dialog_button_text_size">20sp</dimen>
+    <dimen name="alert_dialog_content_text_size">20sp</dimen>
+    <dimen name="alert_dialog_title_text_size">22sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="setting_btn_radius">5dp</dimen>
+    <string name="app_name">BaseUI</string>
+    <string name="title_activity_base_tab_host">BaseTabHost</string>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+</resources>

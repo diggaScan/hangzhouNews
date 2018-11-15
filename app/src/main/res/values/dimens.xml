@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="toolbar_title_size">20sp</dimen>
+
+    <dimen name="text_padding">45dp</dimen>
+    <dimen name="input_widget_height">55dp</dimen>
+    <dimen name="grid_columnWidth">90dp</dimen>
+    <dimen name="grid_verticalSpacing">20dp</dimen>
+    <dimen name="plateform_item_height">50dp</dimen>
+    <dimen name="plateform_item_left_margin">10dp</dimen>
+    <dimen name="setting_image_width">30dp</dimen>
+    <dimen name="setting_image_left_margin">12dp</dimen>
+    <dimen name="setting_text_size">13sp</dimen>
+    <dimen name="news_tablayout_height">48dp</dimen>
+    <dimen name="quiz_btn_choice_interval">16dp</dimen>
+    <dimen name="latlng_margin">20dp</dimen>
+
+
+    <dimen name="news_list_item_height">80dp</dimen>
+</resources>

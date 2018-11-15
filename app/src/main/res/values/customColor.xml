@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="user_login_icon_back">#8d898989</color>
+    <color name="user_login_edit">#66c6c6c6</color>
+    <color name="gray_back_screen">#efeeee</color>
+    <color name="red">#ff0000</color>
+    <color name="recycler_selected_item">#ded754</color>
+    <color name="pink_blue">#5899d6</color>
+    <color name="dialog_backgrounf">#a4313131</color>
+    <color name="progress_gray">#aea6a6</color>
+    <color name="toolbarBack">#00ffffff</color>
+    <color name="diary_image_background">#c3f2f2f2</color>
+    <color name="tab_clicked_color">#aea6a6</color>
+    <color name="setting_background">@color/colorPrimary</color>
+    <color name="botton_nav_unclickedColor">@color/colorPrimary</color>
+    <color name="url_span_clicked">#aea6a6</color>
+    <color name="divider_color">#f4f3f3</color>
+    <color name="light_color_primary">#6e9fd8</color>
+    <color name="med_color_primary">#3574bd</color>
+    <color name="light_green">#49ae50</color>
+    <color name="light_red">#ec3d46</color>
+    <color name="clicked_red">#bc0f18</color>
+    <color name="answer_sheet_background">#d9d8d8</color>
+    <color name="device_detail_btn_unPressed">#71c16a</color>
+    <color name="device_detail_btn_pressed">#1f7517</color>
+    <color name="device_detail_recycler">#a29c9c</color>
+    <color name="device_detail_recycler_divider">#e0737272</color>
+
+    <color name="nav_divider_color">#bfbfbf</color>
+    <color name="loadingcolor">#e8e8e8</color>
+
+    <color name="item_bkg">#ffffff</color>
+    <color name="item_pressed_color">#dedede</color>
+</resources>

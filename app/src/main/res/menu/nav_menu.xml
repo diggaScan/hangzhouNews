@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <group
+        android:id="@+id/one"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/collect"
+            android:icon="@drawable/ic_bookmark"
+            android:title="收藏夹" />
+    </group>
+    <group
+        android:id="@+id/two"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/setting"
+            android:icon="@drawable/ic_bookmark"
+            android:title="IP地址管理" />
+    </group>
+    <group
+        android:id="@+id/three"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/attach"
+            android:icon="@drawable/ic_bookmark"
+            android:title="附件管理" />
+    </group>
+    <group
+        android:id="@+id/four"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/about"
+            android:icon="@drawable/ic_bookmark"
+            android:title="关于应用" />
+    </group>
+
+
+</menu>

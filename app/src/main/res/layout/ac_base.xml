@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/news_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:actionBarSize"
+            android:background="@color/colorPrimary"
+            app:contentInsetStart="0dp">
+
+            <RelativeLayout
+                android:id="@+id/toolbar_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/nav_back"
+                    android:layout_width="?android:actionBarSize"
+                    android:layout_height="?android:actionBarSize"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_arrow_back"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/toolbar_title_size" />
+
+            </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
+    </LinearLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_layout"
+        app:menu="@menu/nav_menu" />
+
+
+</android.support.v4.widget.DrawerLayout>

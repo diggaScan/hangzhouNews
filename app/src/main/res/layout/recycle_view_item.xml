@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:focusable="true"
+android:id="@+id/item_container"
+android:background="@drawable/recycler_item_click">
+<ImageView
+    android:layout_margin="5dp"
+    android:id="@+id/right_image"
+    android:layout_width="120dp"
+    android:layout_height="90dp"
+    android:visibility="gone"
+    android:scaleType="fitXY"
+    android:layout_alignParentRight="true"/>
+
+<TextView
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="6dp"
+    android:id="@+id/title"
+    android:layout_toLeftOf="@+id/right_image"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    />
+<LinearLayout
+    android:layout_below="@+id/title"
+    android:id="@+id/images"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <ImageView
+        android:layout_margin="2dp"
+        android:id="@+id/image_one"
+        android:scaleType="fitXY"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="90dp" />
+    <ImageView
+        android:layout_margin="2dp"
+        android:id="@+id/image_two"
+        android:scaleType="fitXY"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="90dp" />
+    <ImageView
+        android:layout_margin="2dp"
+        android:id="@+id/image_three"
+        android:scaleType="fitXY"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="90dp" />
+</LinearLayout>
+    <ImageView
+        android:id="@+id/video_clip"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:scaleType="fitXY"
+        android:visibility="gone"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="30dp"/>
+<TextView
+    android:layout_margin="8dp"
+    android:paddingBottom="10dp"
+    android:layout_alignParentBottom="true"
+    android:id="@+id/source"
+    android:layout_below="@+id/images"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    />
+</RelativeLayout>
