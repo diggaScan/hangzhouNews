@@ -45,6 +45,7 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
     private RequestManager mRequestManager;
     private String dqid;
     private int lbid;
+    private String category_name;
     private int cur_page = 1;
     private final int items_per_page = 10;
     private boolean isHopBack = false;
@@ -100,6 +101,10 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
     }
 
 
+    public String getCategory_name() {
+        return category_name;
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -131,9 +136,10 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
         ((Ac_main) context).mContentAdapter.notifyDataSetChanged();
     }
 
-    public void setQueryParams(String dqid, int lbid) {
+    public void setQueryParams(String dqid, int lbid, String category_name) {
         this.dqid = dqid;
         this.lbid = lbid;
+        this.category_name = category_name;
     }
 
     private void queryYdjwData() {

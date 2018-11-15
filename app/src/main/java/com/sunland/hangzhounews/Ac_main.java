@@ -114,7 +114,6 @@ public class Ac_main extends CheckSelfPermissionActivity implements OnRequestCal
                 queryYdjwData(DataModel.NEWS_CATEGORY_LIST_REQNAME);
             }
         });
-
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNDEFINED);
 
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -151,12 +150,11 @@ public class Ac_main extends CheckSelfPermissionActivity implements OnRequestCal
         frg_list.clear();
         for (int i = 0; i < category_names.size(); i++) {
             Frg_news_list frg = new Frg_news_list();
-            frg.setQueryParams(selected_dq_code, category_codes.get(i));
+            frg.setQueryParams(selected_dq_code, category_codes.get(i), category_names.get(i));
             frg_list.add(frg);
         }
-        mContentAdapter = new ContentAdapter(getSupportFragmentManager(), frg_list, category_names);
+        mContentAdapter = new ContentAdapter(getSupportFragmentManager(), frg_list);
         vp_frg_container.setAdapter(mContentAdapter);
-        vp_frg_container.setOffscreenPageLimit(10);
         tl_categories.setupWithViewPager(vp_frg_container);
     }
 
@@ -243,7 +241,6 @@ public class Ac_main extends CheckSelfPermissionActivity implements OnRequestCal
                         if (list == null || list.isEmpty()) {
                             Toast.makeText(this, "新闻类别列表返回为空", Toast.LENGTH_SHORT).show();
                             category_names.clear();
-                            mContentAdapter.notifyDataSetChanged();
                             category_codes.clear();
                             initNewsCategories();
                         } else {
