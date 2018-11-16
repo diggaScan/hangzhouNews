@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -27,11 +29,13 @@ import com.sunland.hangzhounews.dbHelper.OpenDbHelper;
 import com.sunland.hangzhounews.dbHelper.news_collection.News;
 import com.sunland.hangzhounews.downloadUtils.DownloadTask;
 import com.sunland.hangzhounews.downloadUtils.DownloadUtils;
+import com.sunland.hangzhounews.utils.FileUtils;
 import com.sunlandgroup.Global;
 import com.sunlandgroup.def.bean.result.ResultBase;
 import com.sunlandgroup.network.OnRequestCallback;
 import com.sunlandgroup.network.RequestManager;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -56,12 +60,11 @@ public class Ac_news_detail extends Ac_base implements OnRequestCallback {
     public TextView tv_toolbar_title;
     @BindView(R.id.news_detail)
     public WebView wv_news;
-
-
+    public TextView tv_alert_content;
     private ProgressBar progressBar;
     private TextView progress_num;
     private Button btn_pos;
-
+    private Button btn_neutral;
     private String dqid;
     private int lbid;
     private int newsId;
@@ -255,27 +258,50 @@ public class Ac_news_detail extends Ac_base implements OnRequestCallback {
         }).start();
     }
 
-    private void onInterceptUrl(String url) {
+    private void onInterceptUrl(final String url) {
         View view = LayoutInflater.from(this).inflate(R.layout.download_progress_layout, null);
+
         progressBar = view.findViewById(R.id.download_progress);
         progressBar.setMax(100);
         progress_num = view.findViewById(R.id.num);
+        tv_alert_content = view.findViewById(R.id.alert_content);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("正在下载");
+        builder.setTitle("附件下载");
         builder.setView(view);
         builder.setIcon(R.mipmap.ic_app);
         builder.setPositiveButton("取消下载", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                downloadTask.cancel(true);
             }
         });
+        builder.setNegativeButton("查看", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String file_name = url.substring(url.lastIndexOf("/"));
+                String ext = file_name.substring(file_name.lastIndexOf("."));
+                String mimeType = FileUtils.getMIMEType(file_name);
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_DEFAULT);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Uri uri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), DataModel.ATTACH_FILE_DIR + "/" + newsDetail.getTitle() + ext));
+                intent.setDataAndType(uri, mimeType);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(Ac_news_detail.this, "无相关应用可以打开本文件", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        });
         dialog = builder.create();
-        btn_pos = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
+        btn_pos = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        btn_neutral = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        btn_neutral.setVisibility(View.GONE);
         startDownLoad(url);
-
     }
 
     private void startDownLoad(String url) {
@@ -285,10 +311,21 @@ public class Ac_news_detail extends Ac_base implements OnRequestCallback {
             @Override
             public void onProgressUpdate(Integer... values) {
                 if (values[0] == DownloadUtils.OnDownLoadListener.JUST_DOWNLOADED) {
-                    dialog.dismiss();
+                    tv_alert_content.setVisibility(View.VISIBLE);
+                    dialog.setTitle("下载完成");
+                    btn_neutral.setVisibility(View.VISIBLE);
+                    btn_neutral.setText("查看");
+                    btn_pos.setText("确定");
                     Toast.makeText(Ac_news_detail.this, "下载完成", Toast.LENGTH_SHORT).show();
                 } else if (values[0] == DownloadUtils.OnDownLoadListener.ALREADY_DOWNLOADED) {
-                    dialog.dismiss();
+                    dialog.setTitle("");
+                    tv_alert_content.setVisibility(View.VISIBLE);
+                    tv_alert_content.setText("附件已保存至本地");
+                    progressBar.setVisibility(View.GONE);
+                    progress_num.setVisibility(View.GONE);
+                    btn_neutral.setVisibility(View.VISIBLE);
+                    btn_neutral.setText("查看");
+                    btn_pos.setText("确定");
                     Toast.makeText(Ac_news_detail.this, "文件已下载，无需重复下载", Toast.LENGTH_SHORT).show();
                 } else {
                     progress_num.setText(values[0].toString() + "%");
