@@ -13,18 +13,23 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.sunland.hangzhounews.DragToRefreshView.DragToRefreshView;
-import com.sunland.hangzhounews.bean.GeneralNewsInfo;
-import com.sunland.hangzhounews.bean.NewsListRequestBean;
-import com.sunland.hangzhounews.bean.NewsListResponseBean;
+import com.sunland.hangzhounews.activities.Ac_main;
+import com.sunland.hangzhounews.activities.Ac_news_detail;
+import com.sunland.hangzhounews.bean.i_newsList_bean.GeneralNewsInfo;
+import com.sunland.hangzhounews.bean.i_newsList_bean.NewsListRequestBean;
+import com.sunland.hangzhounews.bean.i_newsList_bean.NewsListResponseBean;
 import com.sunland.hangzhounews.config.Rv_Item_decoration;
 import com.sunland.hangzhounews.config.Rv_NewsList_Adapter;
+import com.sunland.hangzhounews.customView.DragToRefreshView.DragToRefreshView;
+import com.sunland.hangzhounews.dbHelper.MyDatabase;
+import com.sunland.hangzhounews.dbHelper.OpenDbHelper;
 import com.sunlandgroup.Global;
 import com.sunlandgroup.def.bean.result.ResultBase;
 import com.sunlandgroup.network.OnRequestCallback;
 import com.sunlandgroup.network.RequestManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,7 +38,7 @@ import butterknife.ButterKnife;
 public class Frg_news_list extends Fragment implements OnRequestCallback {
 
     public static final String TAG = "Frg_news_list";
-
+    private final int items_per_page = 10;
     @BindView(R.id.recycle)
     public RecyclerView rv_news_list;
     @BindView(R.id.empty_news_container)
@@ -47,11 +52,18 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
     private int lbid;
     private String category_name;
     private int cur_page = 1;
-    private final int items_per_page = 10;
     private boolean isHopBack = false;
     private Context context;
     private Rv_NewsList_Adapter adapter;
     private List<GeneralNewsInfo> dataSet;
+
+    //判断fragment的状态
+    private boolean isVisible;
+    private boolean onResumed;
+    private boolean hasLoaded;//fragment中是否已有数据
+    private boolean hasCached;//fragment中的数据是否被缓存
+
+    private Thread dbThread;
 
     public Frg_news_list() {
         super();
@@ -63,9 +75,16 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
         this.context = context;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: " + category_name);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d(category_name, "onCreateView: ");
         View view = inflater.inflate(R.layout.frg_news_list, container, false);
         ButterKnife.bind(this, view);
         mRequestManager = new RequestManager(context, this);
@@ -74,14 +93,41 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d(TAG, "onActivityCreated: " + category_name);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: " + category_name);
+    }
+
     public void initView() {
+        adapter = new Rv_NewsList_Adapter(context, dataSet);
+        LinearLayoutManager manager = new LinearLayoutManager(context);
+        rv_news_list.setAdapter(adapter);
+        rv_news_list.setLayoutManager(manager);
+        rv_news_list.addItemDecoration(new Rv_Item_decoration(context));
+        adapter.setOnItemClickedListener(new Rv_NewsList_Adapter.OnItemClickedListener() {
+            @Override
+            public void onClicked(int position, String newsId) {
+                Bundle bundle = new Bundle();
+                bundle.putString("dqid", dqid);
+                bundle.putInt("lbid", lbid);
+                bundle.putString("newsId", newsId);
+                ((Ac_main) context).hop2Activity(Ac_news_detail.class, bundle);
+            }
+        });
         d2r_refresh.setUpdateListener(new DragToRefreshView.OnUpdateListener() {
             @Override
             public void onRefreshing(DragToRefreshView view) {
                 if (view.isHeaderRefreshing()) {
                     queryYdjwData();
                 } else if (view.isFooterRefreshing()) {
-                    mRequestManager.addRequest(Global.ip, Global.port, Global.postfix, DataModel.NEWS_LIST_REQNAME, requestNextPageBean(), 15000);
+                    mRequestManager.addRequest(Global.ip, Global.port, Global.postfix, V_config.NEWS_LIST_REQNAME, requestNextPageBean(), 15000);
                     mRequestManager.postRequestWithoutDialog();
 //                    recyclerView.smoothScrollToPosition(news_title.size() - 1);//不建议使用
                 }
@@ -108,8 +154,69 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
     @Override
     public void onResume() {
         super.onResume();
+        onResumed = true;
+        Log.d(TAG, "onResume: " + category_name);
         if (isHopBack) {
             isHopBack = false;
+        } else if (isVisible) {
+            queryYdjwData();
+            rl_loading.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause: " + category_name);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop: " + category_name);
+        isHopBack = true;//跳转至另一页面时，调用至onStop()截止
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        isVisible = isVisibleToUser;
+        if (!isVisibleToUser && mRequestManager != null) {
+            mRequestManager.cancelAll();
+        }
+        if (hasLoaded) {
+            return;
+        }
+        if (isVisibleToUser && onResumed) {
+            onFragmentVisible(isVisibleToUser);
+        }
+        Log.d(TAG, "setUserVisibleHint: " + category_name + isVisibleToUser);
+    }
+
+    private void onFragmentVisible(boolean isVisibleToUser) {
+        if (hasCached) {
+            dbThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    MyDatabase db = OpenDbHelper.getDb(context);
+                    final List<GeneralNewsInfo> list = db.getListDao().loadNewsBylm(lbid);
+
+                    ((Ac_main) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (list != null && !list.isEmpty()) {
+                                dataSet.clear();
+                                dataSet.addAll(list);
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                queryYdjwData();
+                                rl_loading.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+                }
+            });
+            dbThread.start();
         } else {
             queryYdjwData();
             rl_loading.setVisibility(View.VISIBLE);
@@ -117,22 +224,35 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop: ");
-        isHopBack = true;//跳转至另一页面时，调用至onStop()截止
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.d(TAG, "onDestroyView: ");
+
+        hasLoaded = false;
+        Log.d(TAG, "onDestroyView: " + category_name);
+        cacheCurrentData();
         isHopBack = false; //viewPager滑动时,遗弃的fragment会调用此方法
+    }
+
+    private void cacheCurrentData() {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                MyDatabase db = OpenDbHelper.getDb(context);
+                for (GeneralNewsInfo info : dataSet) {
+                    info.setLbid(lbid);
+                    db.getListDao().insert(info);
+                }
+                int size = db.getListDao().loadAllNews().size();
+                hasCached = true;
+            }
+        }).start();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "onDestroy: " + category_name);
         ((Ac_main) context).mContentAdapter.notifyDataSetChanged();
     }
 
@@ -143,57 +263,47 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
     }
 
     private void queryYdjwData() {
-        mRequestManager.addRequest(Global.ip, Global.port, Global.postfix, DataModel.NEWS_LIST_REQNAME
+        mRequestManager.addRequest(Global.ip, Global.port, Global.postfix, V_config.NEWS_LIST_REQNAME
                 , assembleRequestObj(), 15000);
         mRequestManager.postRequestWithoutDialog();
     }
 
     private void initNewsList(List<GeneralNewsInfo> list) {
+
         //上拉和下拉刷新的数据逻辑
         rl_loading.setVisibility(View.GONE);
-        if ((list == null || list.isEmpty()) && !d2r_refresh.isFooterRefreshing()) {
-            d2r_refresh.setVisibility(View.GONE);
-            rl_container.setVisibility(View.VISIBLE);
-        } else if (d2r_refresh.isFooterRefreshing() && list.isEmpty()) {
-            Toast.makeText(context, "无更多内容", Toast.LENGTH_SHORT).show();
-            cur_page--;
+        //判断下拉刷新是否已无更多内容
+//        if (d2r_refresh.isFooterRefreshing() && (list.isEmpty() || list == null)) {
+//            Toast.makeText(context, "无更多内容", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+        if (dataSet.isEmpty()) {
+            dataSet.clear();
+            dataSet.addAll(list);
+            adapter.notifyDataSetChanged();
         } else {
-            if (dataSet.isEmpty()) {
-                dataSet.clear();
+            // 根据现有后台以分页的形式返回数据，很难兼顾多种下拉和上拉的数据返回情况，顾可能存在漏洞
+            if (list.get(0).getNewsid().equals(dataSet.get(0).getNewsid())) {
+                Toast.makeText(context, "已是最新内容", Toast.LENGTH_SHORT).show();
+                return;
+            } else if (list.get(0).getNewsid().compareTo(dataSet.get(0).getNewsid()) < 0) {
                 dataSet.addAll(list);
-            } else {
-                if (list.get(0).getNewsid() == dataSet.get(0).getNewsid()) {
-                    Toast.makeText(context, "已是最新内容", Toast.LENGTH_SHORT).show();
-                } else if (list.get(0).getNewsid() > dataSet.get(0).getNewsid()) {
-                    for (int i = 0; i < list.size() && list.get(i).getNewsid() > dataSet.get(0).getNewsid(); i++) {
-                        dataSet.add(i, list.get(i));
-                    }
+                adapter.notifyItemRangeInserted(dataSet.size(), list.size());
+            } else if (list.get(0).getNewsid().compareTo(dataSet.get(0).getNewsid()) > 0) {
+                for (int i = 0; dataSet.get(0).getNewsid().compareTo(list.get(i).getNewsid()) <= 0; i++) {
+                    dataSet.add(list.get(i));
                 }
+                Collections.sort(dataSet);
+                adapter.notifyDataSetChanged();
             }
         }
 
-        d2r_refresh.dismiss();
-        adapter = new Rv_NewsList_Adapter(context, dataSet);
-        adapter.setOnItemClickedListener(new Rv_NewsList_Adapter.OnItemClickedListener() {
-            @Override
-            public void onClicked(int position, int newsId) {
-                Bundle bundle = new Bundle();
-                bundle.putString("dqid", dqid);
-                bundle.putInt("lbid", lbid);
-                bundle.putInt("newsId", newsId);
-                ((Ac_main) context).hop2Activity(Ac_news_detail.class, bundle);
-            }
-        });
-
-        LinearLayoutManager manager = new LinearLayoutManager(context);
-        rv_news_list.setAdapter(adapter);
-        rv_news_list.setLayoutManager(manager);
-        rv_news_list.addItemDecoration(new Rv_Item_decoration(context));
+        hasLoaded = true;//数据已加载
     }
 
     private NewsListRequestBean assembleRequestObj() {
         NewsListRequestBean requestBean = new NewsListRequestBean();
-        ((Ac_main) context).assembleBaseInfo(requestBean);
+        ((Ac_main) context).assembleBasicRequest(requestBean);
         requestBean.setPageIndex(1);
         requestBean.setPageNo(items_per_page);
         requestBean.setDqid(this.dqid);
@@ -204,7 +314,7 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
     private NewsListRequestBean requestNextPageBean() {
         cur_page++;
         NewsListRequestBean requestBean = new NewsListRequestBean();
-        ((Ac_main) context).assembleBaseInfo(requestBean);
+        ((Ac_main) context).assembleBasicRequest(requestBean);
         requestBean.setPageIndex(cur_page);
         requestBean.setPageNo(items_per_page);
         requestBean.setDqid(dqid);
@@ -218,11 +328,10 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
         if (responseBean != null) {
             if (responseBean.getCode().equals("0")) {
                 List<GeneralNewsInfo> list = responseBean.getGeneralNewsInfo();
-                if (list == null) {
-                    initNewsList(null);
+                if (list == null || list.isEmpty()) {
                     Toast.makeText(context, "新闻列表返回为空", Toast.LENGTH_SHORT).show();
-                } else if (list.isEmpty()) {
-                    initNewsList(list);
+//                } else if (list.isEmpty()) {
+//                    initNewsList(list);
                 } else {
                     initNewsList(list);
                 }
@@ -232,13 +341,12 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
         } else {
             Toast.makeText(context, "数据接入错误", Toast.LENGTH_SHORT).show();
         }
+        d2r_refresh.dismiss();
     }
 
     @Override
     public <T extends ResultBase> Class<?> getBeanClass(String reqId, String reqName) {
         return NewsListResponseBean.class;
-
     }
-
 
 }

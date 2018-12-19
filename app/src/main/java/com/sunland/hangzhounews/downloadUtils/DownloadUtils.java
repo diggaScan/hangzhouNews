@@ -54,7 +54,7 @@ public class DownloadUtils {
         try {
             String file_dir = getExistPath(saveDir);
             String file_name = getNameByUrl(url);
-            String file_name2 = title + "." + "png";
+            String file_name2 = title + file_name.substring(file_name.lastIndexOf("."));
             apk_file = new File(file_dir, file_name2);
             save_path = apk_file.getAbsolutePath();
             downloaded_size = apk_file.length();

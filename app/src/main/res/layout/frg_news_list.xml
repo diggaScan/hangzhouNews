@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.sunland.hangzhounews.DragToRefreshView.DragToRefreshView
+    <com.sunland.hangzhounews.customView.DragToRefreshView.DragToRefreshView
         android:id="@+id/drag2Refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -12,7 +12,7 @@
             android:id="@+id/recycle"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </com.sunland.hangzhounews.DragToRefreshView.DragToRefreshView>
+    </com.sunland.hangzhounews.customView.DragToRefreshView.DragToRefreshView>
 
 
     <RelativeLayout

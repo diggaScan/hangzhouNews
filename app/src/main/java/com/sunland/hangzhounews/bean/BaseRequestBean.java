@@ -5,10 +5,13 @@ package com.sunland.hangzhounews.bean;
  * On 2018/8/27
  **/
 public class BaseRequestBean {
-    public String yhdm;
-    public String imei;
-    public String imsi;
-    public String pdaTime;
+    private String yhdm;
+    private String imei;
+    private String imsi;
+    private String pdaTime;
+    private String gpsX;
+    private String gpsY;
+
 
     public String getYhdm() {
         return yhdm;
@@ -40,5 +43,21 @@ public class BaseRequestBean {
 
     public void setPdaTime(String pdaTime) {
         this.pdaTime = pdaTime;
+    }
+
+    public String getGpsX() {
+        return gpsX;
+    }
+
+    public void setGpsX(String gpsX) {
+        this.gpsX = gpsX;
+    }
+
+    public String getGpsY() {
+        return gpsY;
+    }
+
+    public void setGpsY(String gpsY) {
+        this.gpsY = gpsY;
     }
 }

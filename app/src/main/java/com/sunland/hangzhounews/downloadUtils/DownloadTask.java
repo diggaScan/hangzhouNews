@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.sunland.hangzhounews.DataModel;
+import com.sunland.hangzhounews.V_config;
 
 /**
  * Created by PeitaoYe
@@ -47,15 +47,13 @@ public class DownloadTask extends AsyncTask<Integer, Integer, Integer> {
         if (onProgressUpdateListener != null) {
             onProgressUpdateListener.onProgressUpdate(values);
         }
-
-
     }
 
     @Override
     protected Integer doInBackground(Integer... integers) {
         Log.d("async", "doInBackground: ");
         // TODO: 2018/11/14/014 把title删除 
-        downloadUtils.initDownloadParams(URLStr, title, DataModel.ATTACH_FILE_DIR, new DownloadUtils.OnDownLoadListener() {
+        downloadUtils.initDownloadParams(URLStr, title, V_config.ATTACH_FILE_DIR, new DownloadUtils.OnDownLoadListener() {
             @Override
             public void onDownloadProgress(int progress) {
                 Log.d("async", "onDownloadProgress: " + progress);

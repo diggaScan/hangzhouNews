@@ -5,24 +5,24 @@
     android:background="@drawable/recycler_item_click">
 
     <TextView
-        android:textSize="18sp"
-        android:textColor="@color/black"
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="6dp" />
+        android:layout_marginBottom="6dp"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/scsj_des"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="收藏时间:"
         android:layout_marginLeft="8dp"
-        android:textColor="@color/black" />
+        android:text="收藏时间:"
+        android:textColor="@color/textSecondary" />
 
     <TextView
         android:id="@+id/scsj"

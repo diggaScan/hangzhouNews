@@ -23,7 +23,7 @@
         android:textSize="21dp" />
 
 
-    <com.sunland.hangzhounews.SpinButton
+    <com.sunland.hangzhounews.customView.SpinButton
         android:id="@+id/region_picker"
         android:layout_width="wrap_content"
         android:layout_height="?android:actionBarSize"
@@ -32,7 +32,10 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="8dp"
         android:drawableRight="@drawable/ic_arrow_drop_down"
+        android:ellipsize="middle"
         android:gravity="center_vertical"
+        android:maxEms="8"
+        android:singleLine="true"
         android:text="地区"
         android:textColor="@color/white" />
 

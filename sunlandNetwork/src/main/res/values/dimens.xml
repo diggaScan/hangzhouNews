@@ -5,4 +5,7 @@
     <dimen name="alert_dialog_button_text_size">20sp</dimen>
     <dimen name="alert_dialog_button_height_size">48dp</dimen>
     <dimen name="setting_btn_radius">5dp</dimen>
+    <!--frg_news_list-->
+    <dimen name="img_height">95dp</dimen>
+    <dimen name="img_width">100dp</dimen>
 </resources>

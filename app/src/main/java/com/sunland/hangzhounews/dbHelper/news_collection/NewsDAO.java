@@ -23,7 +23,7 @@ public interface NewsDAO {
     public List<String> loadALlTitles();
 
     @Query("SELECT newsId FROM NEWS_COLLECTION ")
-    public List<Integer> loadAllNewsId();
+    public List<String> loadAllNewsId();
 
     @Query("SELECT * FROM News_collection ORDER BY TIME_STAMP desc")
     public News[] loadAllTitlesDesc();

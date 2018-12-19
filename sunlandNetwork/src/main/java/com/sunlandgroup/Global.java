@@ -10,17 +10,18 @@ import android.os.Environment;
 public class Global {
     public final static String appName = "ydjw";
     public final static String sdPath = Environment.getExternalStorageDirectory().getPath();
-    public final static String ip = "sunlandgroup.51vip.biz";
-    public static String port = "9080";
+//        public final static String ip = "sunlandgroup.51vip.biz";
+//        public static String port = "9080";
+
+    public final static String ip = "20.65.2.12";
+    public static String port = "3565";
     public final static String postfix = "/hzydjw/services/IHzydjwService";
+
+    //    public final static String postfix = "/hzydjw/services/IUserLoginService";
     //    public final static String portName="newsService";
-
-    //        public final static String ip = "20.65.2.12";
-//        public static String port = "3565";
-
-    //public final static String ip = "192.168.1.219";
-//    public static String port = "8080";
-    //本机信息
+    //    public final static String ip = "192.168.1.219";
+    //    public static String port = "8080";
+    //    本机信息
     public static String imei = "";
     public static String imsi1 = " ";
     public static String imsi2 = "";

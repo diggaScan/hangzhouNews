@@ -10,11 +10,13 @@
     <dimen name="alert_dialog_content_text_size">20sp</dimen>
     <dimen name="alert_dialog_title_text_size">22sp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="img_height">95dp</dimen>
+    <dimen name="img_width">100dp</dimen>
     <dimen name="setting_btn_radius">5dp</dimen>
     <string name="app_name">BaseUI</string>
     <string name="title_activity_base_tab_host">BaseTabHost</string>
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>

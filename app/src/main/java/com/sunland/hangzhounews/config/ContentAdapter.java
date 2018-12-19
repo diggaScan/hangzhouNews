@@ -4,20 +4,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.sunland.hangzhounews.Frg_news_list;
+
 import java.util.List;
 
 public class ContentAdapter extends FragmentPagerAdapter {
 
-    private FragmentManager fm;
     private List<Fragment> dataSet;
-    private List<String> tabNames;
 
-
-    public ContentAdapter(FragmentManager fm, List<Fragment> list, List<String> tabNames) {
+    public ContentAdapter(FragmentManager fm, List<Fragment> dataSet) {
         super(fm);
-        this.fm = fm;
-        this.dataSet = list;
-        this.tabNames = tabNames;
+        this.dataSet = dataSet;
     }
 
     @Override
@@ -27,12 +24,12 @@ public class ContentAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return tabNames.size();
+        return dataSet.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return tabNames.get(position);
+        return ((Frg_news_list) dataSet.get(position)).getCategory_name();
     }
 
 

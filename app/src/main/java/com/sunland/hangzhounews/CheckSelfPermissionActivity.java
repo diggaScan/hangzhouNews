@@ -7,6 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
+import com.sunland.hangzhounews.activities.Ac_base;
+
 import java.util.ArrayList;
 import java.util.List;
 

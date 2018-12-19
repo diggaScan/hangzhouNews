@@ -17,7 +17,7 @@ public class News {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "newsId")
-    public int newsId;
+    public String newsId;
 
     @ColumnInfo(name = "lbid")
     public int lbid;

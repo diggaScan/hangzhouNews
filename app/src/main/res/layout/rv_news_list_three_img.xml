@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rv_item_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:minHeight="@dimen/news_list_item_height"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/news_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/img"
+        android:textColor="@color/textPrimary"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:id="@+id/imgs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/news_title"
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
+
+        <ImageView
+            android:id="@+id/img_one"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/img_height"
+            android:layout_below="@id/news_title"
+            android:layout_toLeftOf="@id/img_two"
+            android:layout_weight="1"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:id="@+id/img_two"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/img_height"
+            android:layout_below="@id/news_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:id="@+id/img_three"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/img_height"
+            android:layout_below="@id/news_title"
+            android:layout_toRightOf="@id/img_two"
+            android:layout_weight="1"
+            android:scaleType="fitXY" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/src"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgs"
+        android:layout_alignParentBottom="true"
+        android:paddingRight="@dimen/plateform_item_left_margin"
+        android:textColor="@color/textSecondary"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgs"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/src"
+        android:textColor="@color/textSecondary"
+        android:textSize="12sp" />
+
+</RelativeLayout>

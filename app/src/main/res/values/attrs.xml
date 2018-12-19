@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding= "utf-8"?>
+<resources>
+    <declare-styleable name="Drag2Delete">
+        <attr name="layout_position">
+            <enum name="layout_above" value="1" />
+            <enum name="layout_below" value="2" />
+        </attr>
+    </declare-styleable>
+</resources>

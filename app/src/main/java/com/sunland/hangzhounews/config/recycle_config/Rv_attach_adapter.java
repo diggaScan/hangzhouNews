@@ -57,13 +57,12 @@ public class Rv_attach_adapter extends RecyclerView.Adapter<Rv_attach_adapter.My
             }
         });
 
-        myViewHolder.file_container.setOnLongClickListener(new View.OnLongClickListener() {
+        myViewHolder.tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public void onClick(View v) {
                 if (onFileClickedListener != null) {
-                    onFileClickedListener.onFileLongClicked(i, file.getName());
+                    onFileClickedListener.onFileDeletedClicked(i, file.getName());
                 }
-                return false;
             }
         });
         String type = file_name.substring(file_name.lastIndexOf("."));
@@ -81,6 +80,7 @@ public class Rv_attach_adapter extends RecyclerView.Adapter<Rv_attach_adapter.My
         TextView tv_add_time;
         RelativeLayout file_container;
         TextView tv_type;
+        RelativeLayout tv_delete;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -88,12 +88,13 @@ public class Rv_attach_adapter extends RecyclerView.Adapter<Rv_attach_adapter.My
             tv_add_time = itemView.findViewById(R.id.create_time);
             file_container = itemView.findViewById(R.id.file_container);
             tv_type = itemView.findViewById(R.id.type);
+            tv_delete = itemView.findViewById(R.id.delete);
         }
     }
 
     public interface OnFileClickedListener {
-        void onFileClicked(int positon, String name);
+        void onFileClicked(int positon, String name);//0左视图，1右视图
 
-        void onFileLongClicked(int position, String name);
+        void onFileDeletedClicked(int position, String name);
     }
 }

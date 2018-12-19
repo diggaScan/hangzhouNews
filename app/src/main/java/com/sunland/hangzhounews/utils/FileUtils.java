@@ -1,6 +1,6 @@
 package com.sunland.hangzhounews.utils;
 
-import com.sunland.hangzhounews.DataModel;
+import com.sunland.hangzhounews.V_config;
 
 public class FileUtils {
     /**
@@ -11,9 +11,9 @@ public class FileUtils {
         if (type.isEmpty())
             return "*/*";
         //在MIME和文件类型的匹配表中找到对应的MIME类型。
-        for (int i = 0; i < DataModel.MIME_MapTable.length; i++) {
-            if (type.equals(DataModel.MIME_MapTable[i][0]))
-                type = DataModel.MIME_MapTable[i][1];
+        for (int i = 0; i < V_config.MIME_MapTable.length; i++) {
+            if (type.equals(V_config.MIME_MapTable[i][0]))
+                type = V_config.MIME_MapTable[i][1];
         }
         return type;
     }
