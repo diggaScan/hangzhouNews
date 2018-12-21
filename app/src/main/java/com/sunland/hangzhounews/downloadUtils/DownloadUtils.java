@@ -37,6 +37,7 @@ public class DownloadUtils {
     private File apk_file;
     private String url;
     private OnDownLoadListener onDownLoadListener;
+    private DownloadTask downloadTask;
 
     private DownloadUtils(Context context) {
         this.mContet = context;
@@ -50,8 +51,9 @@ public class DownloadUtils {
         return apk_file;
     }
 
-    public void initDownloadParams(String url, String title, String saveDir, @Nullable OnDownLoadListener onDownLoadListener) {
+    public void initDownloadParams(DownloadTask downloadTask, String url, String title, String saveDir, @Nullable OnDownLoadListener onDownLoadListener) {
         try {
+
             String file_dir = getExistPath(saveDir);
             String file_name = getNameByUrl(url);
             String file_name2 = title + file_name.substring(file_name.lastIndexOf("."));
@@ -63,6 +65,7 @@ public class DownloadUtils {
             buf = new byte[1024];
             this.url = url;
             this.onDownLoadListener = onDownLoadListener;
+            this.downloadTask = downloadTask;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -105,10 +108,13 @@ public class DownloadUtils {
                     RandomAccessFile savedFile = new RandomAccessFile(apk_file, "rwd");
 
                     while ((buf_len = is.read(buf)) != -1 && !isPaused) {
+                        if (downloadTask.isCancelled()) {
+                            break;
+                        }
                         savedFile.seek(downloaded_size);
                         savedFile.write(buf, 0, buf_len);
                         downloaded_size += buf_len;
-                        progress = (int) (downloaded_size * 1.0f / file_size * 100);
+                        progress = (int) (downloaded_size * 1.0f / target_file_size * 100);
                         onDownLoadListener.onDownloadProgress(progress);
                     }
                     if (isPaused && progress < 100) {
@@ -138,7 +144,6 @@ public class DownloadUtils {
                 file.createNewFile();
             }
             String savePath = file.getAbsolutePath();
-            Log.d("savePath:", "getExistPath: " + savePath);
             return savePath;
         }
         return null;

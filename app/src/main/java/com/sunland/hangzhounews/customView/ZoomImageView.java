@@ -20,7 +20,6 @@ public class ZoomImageView extends ImageView implements ScaleGestureDetector.OnS
     private static final String TAG = ZoomImageView.class.getSimpleName();
     public static final float SCALE_MAX = 3.0f;
     private static final float SCALE_MID = 1.5f;
-
     /**
      * 初始化时的缩放比例，如果图片宽或高大于屏幕，此值将小于0
      */

@@ -9,7 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <include layout="@layout/pre_loading_layout"
-      />
+    <com.sunland.hangzhounews.customView.shimmer.ShimmerRecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:shimmer_demo_angle="20"
+        app:shimmer_demo_child_count="1"
+        app:shimmer_demo_layout="@layout/pre_loading_layout"
+        app:shimmer_demo_mask_width="0.1"
+        app:shimmer_demo_shimmer_color="@color/shimmer_color"
+        app:shimmer_demo_view_holder_item_background="@drawable/bg_card" />
 
 </FrameLayout>

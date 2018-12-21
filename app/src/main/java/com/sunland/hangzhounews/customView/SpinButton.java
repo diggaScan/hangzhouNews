@@ -70,7 +70,11 @@ public class SpinButton extends AppCompatTextView {
     private OnClickListener selfOnClickListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
-            show();
+            if (dataSet == null || dataSet.isEmpty()) {
+                return;
+            } else {
+                show();
+            }
         }
     };
 

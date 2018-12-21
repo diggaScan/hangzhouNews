@@ -25,16 +25,17 @@
             android:value="${PLATEFORM_VALUE}" />
 
         <activity
-            android:name=".activities.Ac_login"
-            android:windowSoftInputMode="adjustResize">
-
-        </activity>
-        <activity android:name=".activities.Ac_main">
+            android:name=".activities.Ac_splash"
+            android:theme="@style/AppTheme.splash">
             <intent-filter>
                 <action android:name="${PLATEFORM_VALUE}.intent.action.MAIN" />
                 <category android:name="${PLATEFORM_VALUE}.intent.category.${CATEGORY_VALUE}" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.Ac_login"
+            android:windowSoftInputMode="adjustResize"></activity>
+        <activity android:name=".activities.Ac_main"></activity>
         <activity android:name=".activities.Ac_personal_track" />
         <activity android:name=".activities.Ac_news_detail" />
         <activity android:name=".activities.Ac_attach" />

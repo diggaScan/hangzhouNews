@@ -259,9 +259,7 @@ public class DialogUtils {
                 isShown = true;
                 break;
             default:
-
                 break;
-
         }
     }
 
@@ -366,6 +364,4 @@ public class DialogUtils {
             return;
         }
     }
-
-
 }

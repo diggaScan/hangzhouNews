@@ -18,8 +18,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:ellipsize="middle"
+        android:maxEms="10"
+        android:singleLine="true"
         android:textColor="@color/white"
-        android:textSize="21dp" />
+        android:textSize="18dp" />
 
     <ImageView
         android:id="@+id/collect_button"

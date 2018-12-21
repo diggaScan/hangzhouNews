@@ -2,7 +2,6 @@ package com.sunland.hangzhounews.downloadUtils;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.sunland.hangzhounews.V_config;
 
@@ -51,12 +50,12 @@ public class DownloadTask extends AsyncTask<Integer, Integer, Integer> {
 
     @Override
     protected Integer doInBackground(Integer... integers) {
-        Log.d("async", "doInBackground: ");
+
         // TODO: 2018/11/14/014 把title删除 
-        downloadUtils.initDownloadParams(URLStr, title, V_config.ATTACH_FILE_DIR, new DownloadUtils.OnDownLoadListener() {
+        downloadUtils.initDownloadParams(this,URLStr, title, V_config.ATTACH_FILE_DIR, new DownloadUtils.OnDownLoadListener() {
             @Override
             public void onDownloadProgress(int progress) {
-                Log.d("async", "onDownloadProgress: " + progress);
+
                 publishProgress(progress);
             }
 

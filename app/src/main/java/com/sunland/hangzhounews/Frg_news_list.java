@@ -75,34 +75,15 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
         this.context = context;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: " + category_name);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d(category_name, "onCreateView: ");
         View view = inflater.inflate(R.layout.frg_news_list, container, false);
         ButterKnife.bind(this, view);
         mRequestManager = new RequestManager(context, this);
         dataSet = new ArrayList<>();
         initView();
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.d(TAG, "onActivityCreated: " + category_name);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart: " + category_name);
     }
 
     public void initView() {
@@ -113,11 +94,12 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
         rv_news_list.addItemDecoration(new Rv_Item_decoration(context));
         adapter.setOnItemClickedListener(new Rv_NewsList_Adapter.OnItemClickedListener() {
             @Override
-            public void onClicked(int position, String newsId) {
+            public void onClicked(int position, String newsId, String title) {
                 Bundle bundle = new Bundle();
                 bundle.putString("dqid", dqid);
                 bundle.putInt("lbid", lbid);
                 bundle.putString("newsId", newsId);
+                bundle.putString("title", title);
                 ((Ac_main) context).hop2Activity(Ac_news_detail.class, bundle);
             }
         });
@@ -155,7 +137,6 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
     public void onResume() {
         super.onResume();
         onResumed = true;
-        Log.d(TAG, "onResume: " + category_name);
         if (isHopBack) {
             isHopBack = false;
         } else if (isVisible) {
@@ -165,15 +146,8 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause: " + category_name);
-    }
-
-    @Override
     public void onStop() {
         super.onStop();
-        Log.d(TAG, "onStop: " + category_name);
         isHopBack = true;//跳转至另一页面时，调用至onStop()截止
     }
 
@@ -228,7 +202,6 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
         super.onDestroyView();
 
         hasLoaded = false;
-        Log.d(TAG, "onDestroyView: " + category_name);
         cacheCurrentData();
         isHopBack = false; //viewPager滑动时,遗弃的fragment会调用此方法
     }
@@ -243,7 +216,6 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
                     info.setLbid(lbid);
                     db.getListDao().insert(info);
                 }
-                int size = db.getListDao().loadAllNews().size();
                 hasCached = true;
             }
         }).start();
@@ -252,7 +224,6 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy: " + category_name);
         ((Ac_main) context).mContentAdapter.notifyDataSetChanged();
     }
 
@@ -297,7 +268,6 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
                 adapter.notifyDataSetChanged();
             }
         }
-
         hasLoaded = true;//数据已加载
     }
 

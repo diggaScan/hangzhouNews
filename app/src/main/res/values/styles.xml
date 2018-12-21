@@ -32,4 +32,10 @@
         <item name="android:windowExitAnimation">@anim/popup_fade_out</item>
     </style>
 
+    <style name="AppTheme.splash" >
+        <item name="android:windowBackground">@drawable/splas_bkg</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 </resources>

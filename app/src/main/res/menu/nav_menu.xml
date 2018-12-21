@@ -31,8 +31,8 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/about"
-            android:icon="@drawable/ic_bookmark"
-            android:title="关于应用" />
+
+            android:title="" />
     </group>
 
 

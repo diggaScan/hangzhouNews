@@ -16,6 +16,7 @@ import com.sunland.hangzhounews.bean.i_newsList_bean.GeneralNewsInfo;
 import com.sunland.hangzhounews.utils.WindowInfoUtils;
 import com.sunlandgroup.Global;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -56,9 +57,8 @@ public class Rv_NewsList_Adapter extends RecyclerView.Adapter<Rv_NewsList_Adapte
         } else {
             paths = new ArrayList<>();
             GeneralNewsInfo info = dataSet.get(position);
-            Document docs = Jsoup.parse(info.getContent());
+            Document docs = Jsoup.parse(StringEscapeUtils.unescapeHtml4(info.getContent()));
             Elements elements = docs.getElementsByTag("img");
-            // TODO: 2018/12/17/017 内存缓存
             for (int k = 0; k < elements.size(); k++) {
                 Element element = elements.get(k);
                 String path = element.attr("src");
@@ -126,7 +126,7 @@ public class Rv_NewsList_Adapter extends RecyclerView.Adapter<Rv_NewsList_Adapte
                         .into(myViewHolder.iv_img_two);
 
                 GlideApp.with(context).asBitmap()
-                        .load("http://" + Global.ip + ":" + Global.port + paths.get(1))
+                        .load("http://" + Global.ip + ":" + Global.port + paths.get(2))
                         .override(img_size, img_size)
                         .thumbnail(0.10f)
                         .into(myViewHolder.iv_img_three);
@@ -141,7 +141,6 @@ public class Rv_NewsList_Adapter extends RecyclerView.Adapter<Rv_NewsList_Adapte
                         .into(myViewHolder.iv_img);
                 break;
             case 0:
-
                 break;
         }
 
@@ -149,11 +148,10 @@ public class Rv_NewsList_Adapter extends RecyclerView.Adapter<Rv_NewsList_Adapte
             myViewHolder.rl_container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemClickedListener.onClicked(i, info.getNewsid());
+                    onItemClickedListener.onClicked(i, info.getNewsid(),info.getTitle());
                 }
             });
         }
-
     }
 
     @Override
@@ -162,7 +160,7 @@ public class Rv_NewsList_Adapter extends RecyclerView.Adapter<Rv_NewsList_Adapte
     }
 
     public interface OnItemClickedListener {
-        void onClicked(int position, String newsId);
+        void onClicked(int position, String newsId,String title);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

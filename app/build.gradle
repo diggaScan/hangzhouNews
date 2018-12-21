@@ -56,4 +56,5 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     implementation files('libs/pstore-sdk-pstore-2.5.1-release.jar')
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'io.supercharge:shimmerlayout:2.1.0'
 }

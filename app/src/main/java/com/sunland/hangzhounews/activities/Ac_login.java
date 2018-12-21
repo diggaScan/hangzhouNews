@@ -11,6 +11,7 @@ import com.sunland.hangzhounews.V_config;
 import com.sunland.hangzhounews.bean.BaseRequestBean;
 import com.sunland.hangzhounews.bean.i_login_bean.LoginRequestBean;
 import com.sunland.hangzhounews.bean.i_login_bean.LoginResBean;
+import com.sunland.hangzhounews.utils.DialogUtils;
 import com.sunlandgroup.Global;
 import com.sunlandgroup.def.bean.result.ResultBase;
 import com.sunlandgroup.network.OnRequestCallback;
@@ -21,10 +22,8 @@ import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.com.cybertech.pdk.OperationLog;
 
-/**
- * A login screen that offers login via email/password.
- */
 public class Ac_login extends Ac_base implements OnRequestCallback {
 
     private final String TAG = "LoginActivity";
@@ -34,22 +33,21 @@ public class Ac_login extends Ac_base implements OnRequestCallback {
     public EditText et_password;
     @BindView(R.id.email_sign_in_button)
     public Button mEmailSignInButton;
+
     private RequestManager mRequestManager;
-    private LoginRequestBean loginRequestBean;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentLayout(R.layout.ac_login);
-        setToolbarTitle("登录界面");
-        // Set up the login form.
+        toolbar.setVisibility(View.GONE);
         et_password.requestFocus();
         mRequestManager = new RequestManager(this, this);
     }
 
     public void queryYdjwData(String reqName) {
-        loginRequestBean = (LoginRequestBean) assembleRequestObj(reqName);
-        mRequestManager.addRequest(Global.ip, Global.port, Global.postfix, reqName, loginRequestBean, 15000);
+        mRequestManager.addRequest(Global.ip, Global.port, Global.postfix, reqName, assembleRequestObj(reqName), 15000);
         mRequestManager.postRequestWithoutDialog();
     }
 
@@ -58,15 +56,19 @@ public class Ac_login extends Ac_base implements OnRequestCallback {
             case V_config.USER_LOGIN:
                 LoginRequestBean requestBean = new LoginRequestBean();
                 requestBean.setYhdm(et_username.getText().toString());
-                requestBean.setImei(Global.imei);
-                requestBean.setImsi(Global.imsi1);
+                requestBean.setImei("1");
+                requestBean.setImsi("1");
                 Date date = new Date();
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String pda_time = simpleDateFormat.format(date);
                 requestBean.setPdaTime(pda_time);
-                requestBean.setGpsX("");
-                requestBean.setGpsY("");
+                requestBean.setGpsX("gpsx");
+                requestBean.setGpsY("gpsy");
                 requestBean.setPassword(et_password.getText().toString());
+                requestBean.setDlmk("1");
+                requestBean.setSjpp("1");
+                requestBean.setSjxx("1");
+                requestBean.setZzxt("1");
                 return requestBean;
         }
         return null;
@@ -74,6 +76,13 @@ public class Ac_login extends Ac_base implements OnRequestCallback {
 
     @OnClick(R.id.email_sign_in_button)
     public void onClick(View view) {
+        dialogUtils.showDialog(Ac_login.this, "登录中...", DialogUtils.TYPE_PROGRESS, new DialogUtils.OnCancelClickListener() {
+            @Override
+            public void onCancel() {
+                mRequestManager.cancelAll();
+            }
+        }, null);
+
         queryYdjwData(V_config.USER_LOGIN);
     }
 
@@ -85,17 +94,26 @@ public class Ac_login extends Ac_base implements OnRequestCallback {
 
     @Override
     public <T> void onRequestFinish(String reqId, String reqName, T bean) {
+        dialogUtils.dialogDismiss();
+
         LoginResBean loginResBean = (LoginResBean) bean;
-        //code 0 表示允许登录
+        if (loginResBean == null) {
+            Toast.makeText(this, "服务异常", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //code 0 允许登录
         //code 1 登录失败
         if (loginResBean.getCode().equals("0")) {
-//            saveLog(0, OperationLog.OperationResult.CODE_SUCCESS, appendString(loginRequestBean.getYhdm(),
-//                    loginRequestBean.getPdaTime(), loginRequestBean.getImei()));//yhdm,手机品牌，手机型号，警号
-            hop2Activity(Ac_main.class);
+            saveLog(0, OperationLog.OperationResult.CODE_SUCCESS, appendString(V_config.YHDM, V_config.BRAND,
+                    V_config.MODEL));//yhdm,手机品牌，手机型号，警号
+            String bm_code = loginResBean.getDljyxx().getBmcode().substring(0, 6);
+            Bundle bundle = new Bundle();
+            bundle.putString("bmcode", bm_code);
+            hop2Activity(Ac_main.class, bundle);
         } else {
-//            saveLog(0, OperationLog.OperationResult.CODE_FAILURE,
-//                    appendString(loginRequestBean.getYhdm(),
-//                            loginRequestBean.getPdaTime(), loginRequestBean.getImei()));
+            saveLog(0, OperationLog.OperationResult.CODE_FAILURE,
+                    appendString(V_config.YHDM, V_config.BRAND, V_config.MODEL));
             Toast.makeText(this, loginResBean.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }

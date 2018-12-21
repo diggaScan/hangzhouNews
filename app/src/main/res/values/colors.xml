@@ -4,10 +4,12 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="demo_light_transparent">#16000000</color>
-
     <color name="demo_dark_transparent">#24000000</color>
 
     <color name="textSecondary">#8b8b8b</color>
     <color name="textPrimary">#212121</color>
+
+    <color name="demo_light_transparent">#16000000</color>
+    <color name="default_shimmer_color">#e3e1e3</color>
+    <color name="shimmer_color">#5ff5f4f4</color>
 </resources>
