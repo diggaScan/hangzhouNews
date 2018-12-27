@@ -6,6 +6,15 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="cybertech.pstore.permission.APP" />
+    <!--<uses-permission android:name="cybertech.pstore.permission.COMPONENT" />-->
+    <uses-permission android:name="cybertech.permission.READ_PSTORE" />
+    <uses-permission android:name="cybertech.permission.READ_PSTORE_USERINFO" />
+    <uses-permission android:name="cybertech.permission.READ_PSTORE_LINKINFO" />
+    <uses-permission android:name="cybertech.permission.READ_PSTORE_LOCATIONINFO" />
+    <uses-permission android:name="cybertech.permission.WRITE_PSTORE_OPERATIONLOG" />
+    <uses-permission android:name="cybertech.permission.READ_PSTORE_LAUNCHERGROUPS" />
+    <uses-permission android:name="cybertech.permission.READ_PSTORE_SERVER_SYNC_TIME" />
 
     <application
         android:name=".MyApplication"
@@ -34,11 +43,20 @@
         </activity>
         <activity
             android:name=".activities.Ac_login"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
         <activity android:name=".activities.Ac_main"></activity>
         <activity android:name=".activities.Ac_personal_track" />
         <activity android:name=".activities.Ac_news_detail" />
         <activity android:name=".activities.Ac_attach" />
+        <provider
+            android:authorities="com.sunland.hangzhounews.fileprovider"
+            android:name="android.support.v4.content.FileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/attach_path" />
+        </provider>
     </application>
 
 </manifest>

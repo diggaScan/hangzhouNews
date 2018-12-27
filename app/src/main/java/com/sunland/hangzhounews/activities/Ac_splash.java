@@ -62,6 +62,7 @@ public class Ac_splash extends Ac_base implements OnRequestCallback {
     }
 
     public BaseRequestBean assembleRequestObj() {
+        // TODO: 2018/12/21/021 修改参数
         LoginMMRequestBean loginBean = new LoginMMRequestBean();
         loginBean.setYhdm(V_config.YHDM);
         loginBean.setImei(V_config.imei);

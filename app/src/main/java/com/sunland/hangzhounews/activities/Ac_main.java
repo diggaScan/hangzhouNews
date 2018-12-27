@@ -113,7 +113,6 @@ public class Ac_main extends CheckSelfPermissionActivity implements OnRequestCal
 
 
     private void initView() {
-
         tv_title.setText("公安资讯");
         sb_regions.setOnItemSelectedListener(new SpinButton.OnItemSelectedListener() {
             @Override

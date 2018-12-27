@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -70,7 +72,17 @@ public class Ac_attach extends Ac_base {
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.addCategory(Intent.CATEGORY_DEFAULT);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                Uri uri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), V_config.ATTACH_FILE_DIR + "/" + name));
+                Uri uri;
+                if (Build.VERSION.SDK_INT >= 23) {
+                    uri = FileProvider.getUriForFile(Ac_attach.this, "com.sunland.hangzhounews.fileprovider", sub_files.get(positon));
+                } else {
+                    uri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), V_config.ATTACH_FILE_DIR + "/" + name));
+                }
+                if (uri != null) {
+                    // Grant temporary read permission to the content URI
+                    intent.addFlags(
+                            Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                }
                 intent.setDataAndType(uri, mimeType);
                 if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);

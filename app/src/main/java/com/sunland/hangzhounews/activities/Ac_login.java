@@ -52,6 +52,7 @@ public class Ac_login extends Ac_base implements OnRequestCallback {
     }
 
     private BaseRequestBean assembleRequestObj(String reqName) {
+        // TODO: 2018/12/21/021 修改参数
         switch (reqName) {
             case V_config.USER_LOGIN:
                 LoginRequestBean requestBean = new LoginRequestBean();
@@ -76,6 +77,14 @@ public class Ac_login extends Ac_base implements OnRequestCallback {
 
     @OnClick(R.id.email_sign_in_button)
     public void onClick(View view) {
+        if (et_username.getText().toString().isEmpty()) {
+            Toast.makeText(this, "请输入账号", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (et_password.getText().toString().isEmpty()) {
+            Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
+            return;
+        }
         dialogUtils.showDialog(Ac_login.this, "登录中...", DialogUtils.TYPE_PROGRESS, new DialogUtils.OnCancelClickListener() {
             @Override
             public void onCancel() {
@@ -105,6 +114,7 @@ public class Ac_login extends Ac_base implements OnRequestCallback {
         //code 0 允许登录
         //code 1 登录失败
         if (loginResBean.getCode().equals("0")) {
+            V_config.YHDM = et_username.getText().toString();
             saveLog(0, OperationLog.OperationResult.CODE_SUCCESS, appendString(V_config.YHDM, V_config.BRAND,
                     V_config.MODEL));//yhdm,手机品牌，手机型号，警号
             String bm_code = loginResBean.getDljyxx().getBmcode().substring(0, 6);

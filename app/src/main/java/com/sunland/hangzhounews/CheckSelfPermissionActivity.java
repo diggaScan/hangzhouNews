@@ -17,6 +17,7 @@ public abstract class CheckSelfPermissionActivity extends Ac_base {
     public static String[] permission_required = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.INTERNET
     };
 
