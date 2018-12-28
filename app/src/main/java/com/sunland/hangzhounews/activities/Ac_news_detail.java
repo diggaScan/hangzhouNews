@@ -9,11 +9,13 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -354,14 +356,26 @@ public class Ac_news_detail extends Ac_base implements OnRequestCallback {
     }
 
     private void viewFile() {
-        String file_name = url.substring(url.lastIndexOf("/"));
-        String ext = file_name.substring(file_name.lastIndexOf("."));
-        String mimeType = FileUtils.getMIMEType(file_name);
+        String file_name_2 = url.substring(url.lastIndexOf("/"));
+        String ext = file_name_2.substring(file_name_2.lastIndexOf("."));
+        String fileName = file_name + ext;
+        String mimeType = FileUtils.getMIMEType(fileName);
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Uri uri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), V_config.ATTACH_FILE_DIR + "/" + file_name + ext));
+        Uri uri;
+        if (Build.VERSION.SDK_INT >= 23) {
+            uri = FileProvider.getUriForFile(Ac_news_detail.this, "com.sunland.hangzhounews.fileprovider",
+                    new File(Environment.getExternalStorageDirectory(), V_config.ATTACH_FILE_DIR + "/" + fileName));
+        } else {
+            uri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), V_config.ATTACH_FILE_DIR + "/" + fileName));
+        }
+        if (uri != null) {
+            // Grant temporary read permission to the content URI
+            intent.addFlags(
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
         intent.setDataAndType(uri, mimeType);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);

@@ -57,19 +57,19 @@ public class Ac_login extends Ac_base implements OnRequestCallback {
             case V_config.USER_LOGIN:
                 LoginRequestBean requestBean = new LoginRequestBean();
                 requestBean.setYhdm(et_username.getText().toString());
-                requestBean.setImei("1");
-                requestBean.setImsi("1");
+                requestBean.setImei(V_config.imei);
+                requestBean.setImsi(V_config.imsi1);
                 Date date = new Date();
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String pda_time = simpleDateFormat.format(date);
                 requestBean.setPdaTime(pda_time);
-                requestBean.setGpsX("gpsx");
-                requestBean.setGpsY("gpsy");
+                requestBean.setGpsX(V_config.gpsX);
+                requestBean.setGpsY(V_config.gpsY);
                 requestBean.setPassword(et_password.getText().toString());
-                requestBean.setDlmk("1");
-                requestBean.setSjpp("1");
-                requestBean.setSjxx("1");
-                requestBean.setZzxt("1");
+                requestBean.setDlmk(V_config.DLMK);
+                requestBean.setSjpp(V_config.BRAND);
+                requestBean.setSjxx(V_config.MODEL);
+                requestBean.setZzxt(V_config.OS);
                 return requestBean;
         }
         return null;

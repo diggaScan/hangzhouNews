@@ -71,12 +71,12 @@ public class Ac_splash extends Ac_base implements OnRequestCallback {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String pda_time = simpleDateFormat.format(date);
         loginBean.setPdaTime(pda_time);
-        loginBean.setGpsX("gpsx");
-        loginBean.setGpsY("gpsy");
-        loginBean.setDlmk("1");
-        loginBean.setSjpp("1");
-        loginBean.setSjxx("1");
-        loginBean.setZzxt("1");
+        loginBean.setGpsX(V_config.gpsX);
+        loginBean.setGpsY(V_config.gpsY);
+        loginBean.setDlmk(V_config.DLMK);
+        loginBean.setSjpp(V_config.BRAND);
+        loginBean.setSjxx(V_config.MODEL);
+        loginBean.setZzxt(V_config.OS);
         return loginBean;
     }
 

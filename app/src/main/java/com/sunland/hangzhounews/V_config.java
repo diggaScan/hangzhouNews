@@ -29,7 +29,7 @@ public final class V_config {
     public static String gpsinfo = gpsX + gpsY;
     //用户代码
     public static String YHDM;
-
+    public static String DLMK = "杭州新闻";
     //附件下载地址
     public final static String ATTACH_FILE_DIR = "hzydjwAttachment";
     //附件mimeType类型

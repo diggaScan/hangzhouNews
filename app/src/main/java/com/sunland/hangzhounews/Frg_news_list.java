@@ -295,6 +295,7 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
     @Override
     public <T> void onRequestFinish(String reqId, String reqName, T bean) {
         NewsListResponseBean responseBean = (NewsListResponseBean) bean;
+        d2r_refresh.dismiss();
         if (responseBean != null) {
             if (responseBean.getCode().equals("0")) {
                 List<GeneralNewsInfo> list = responseBean.getGeneralNewsInfo();
@@ -311,7 +312,6 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
         } else {
             Toast.makeText(context, "数据接入错误", Toast.LENGTH_SHORT).show();
         }
-        d2r_refresh.dismiss();
     }
 
     @Override
