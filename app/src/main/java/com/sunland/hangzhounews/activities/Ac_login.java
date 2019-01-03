@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.sunland.hangzhounews.R;
 import com.sunland.hangzhounews.V_config;
 import com.sunland.hangzhounews.bean.BaseRequestBean;
+import com.sunland.hangzhounews.bean.i_login_bean.Dljyxx;
 import com.sunland.hangzhounews.bean.i_login_bean.LoginRequestBean;
 import com.sunland.hangzhounews.bean.i_login_bean.LoginResBean;
 import com.sunland.hangzhounews.utils.DialogUtils;
@@ -110,21 +111,30 @@ public class Ac_login extends Ac_base implements OnRequestCallback {
             Toast.makeText(this, "服务异常", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        Dljyxx dljyxx = loginResBean.getDljyxx();
+        if (dljyxx == null||!loginResBean.getCode().equals("0")) {
+            saveLog(0, OperationLog.OperationResult.CODE_FAILURE,
+                    appendString(V_config.YHDM, V_config.BRAND, V_config.MODEL));
+            Toast.makeText(this,  loginResBean.getMessage(), Toast.LENGTH_SHORT).show();
+            return;
+        }
         //code 0 允许登录
         //code 1 登录失败
         if (loginResBean.getCode().equals("0")) {
             V_config.YHDM = et_username.getText().toString();
+            V_config.JYBMBH = dljyxx.getBmcode();
             saveLog(0, OperationLog.OperationResult.CODE_SUCCESS, appendString(V_config.YHDM, V_config.BRAND,
                     V_config.MODEL));//yhdm,手机品牌，手机型号，警号
-            String bm_code = loginResBean.getDljyxx().getBmcode().substring(0, 6);
+            String bm_code;
+            if(V_config.JYBMBH==null){//部分警员部门编号为null
+                bm_code = "";
+            }else {
+                bm_code = V_config.JYBMBH.substring(0, 6);
+            }
+
             Bundle bundle = new Bundle();
-            bundle.putString("bmcode", bm_code);
+            bundle.putString("bmcode",bm_code );
             hop2Activity(Ac_main.class, bundle);
-        } else {
-            saveLog(0, OperationLog.OperationResult.CODE_FAILURE,
-                    appendString(V_config.YHDM, V_config.BRAND, V_config.MODEL));
-            Toast.makeText(this, loginResBean.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

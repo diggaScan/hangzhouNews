@@ -40,7 +40,6 @@
 
                     <EditText
                         android:id="@+id/user_name"
-                        android:text="012146"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="用户名"
@@ -55,7 +54,6 @@
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:text="123"
                         android:id="@+id/password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Toast;
 
+import com.sunland.hangzhounews.CheckSelfPermissionActivity;
 import com.sunland.hangzhounews.V_config;
 import com.sunland.hangzhounews.bean.BaseRequestBean;
 import com.sunland.hangzhounews.bean.i_login_bean.LoginResBean;
@@ -21,7 +22,7 @@ import cn.com.cybertech.models.User;
 import cn.com.cybertech.pdk.OperationLog;
 
 
-public class Ac_splash extends Ac_base implements OnRequestCallback {
+public class Ac_splash extends CheckSelfPermissionActivity implements OnRequestCallback {
 
     private final String TAG = this.getClass().getSimpleName();
     private RequestManager mRequestManager;
@@ -41,6 +42,7 @@ public class Ac_splash extends Ac_base implements OnRequestCallback {
             User user = cn.com.cybertech.pdk.UserInfo.getUser(this);
             try {
                 V_config.YHDM = user.getAccount();
+                V_config.JYBMBH = user.getDeptId();
             } catch (NullPointerException e) {
                 Toast.makeText(this, "无法获取警号", Toast.LENGTH_LONG).show();
                 finish();
@@ -88,7 +90,6 @@ public class Ac_splash extends Ac_base implements OnRequestCallback {
 
     @Override
     public <T> void onRequestFinish(String reqId, String reqName, T bean) {
-
         LoginResBean loginResBean = (LoginResBean) bean;
         if (loginResBean == null) {
             Toast.makeText(this, "服务异常", Toast.LENGTH_SHORT).show();
@@ -97,8 +98,14 @@ public class Ac_splash extends Ac_base implements OnRequestCallback {
 
         if (!loginResBean.getCode().equals("0")) {
             saveLog(0, OperationLog.OperationResult.CODE_SUCCESS, appendString(V_config.YHDM, V_config.BRAND, V_config.MODEL));
+            String bm_code;
+            if(V_config.JYBMBH==null){//部分警员部门编号为null
+                bm_code = "";
+            }else {
+                bm_code = V_config.JYBMBH.substring(0, 6);
+            }
             Bundle bundle = new Bundle();
-            bundle.putString("bmcode", loginResBean.getDljyxx().getBmcode());
+            bundle.putString("bmcode", bm_code);
             hop2Activity(Ac_main.class, bundle);
         } else {
             saveLog(0, OperationLog.OperationResult.CODE_FAILURE,

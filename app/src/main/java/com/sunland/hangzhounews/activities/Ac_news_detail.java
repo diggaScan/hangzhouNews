@@ -181,7 +181,7 @@ public class Ac_news_detail extends Ac_base implements OnRequestCallback {
                     public void run() {
                         ll_loading_layout.setVisibility(View.GONE);
                     }
-                }, 100);
+                }, 300);
             }
 
             @Override
@@ -363,7 +363,7 @@ public class Ac_news_detail extends Ac_base implements OnRequestCallback {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
         Uri uri;
         if (Build.VERSION.SDK_INT >= 23) {
             uri = FileProvider.getUriForFile(Ac_news_detail.this, "com.sunland.hangzhounews.fileprovider",

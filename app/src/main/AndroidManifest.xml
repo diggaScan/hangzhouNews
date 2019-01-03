@@ -6,15 +6,21 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="cybertech.pstore.permission.APP" />
-    <!--<uses-permission android:name="cybertech.pstore.permission.COMPONENT" />-->
-    <uses-permission android:name="cybertech.permission.READ_PSTORE" />
+
+    <!-- 用户信息权限 -->
     <uses-permission android:name="cybertech.permission.READ_PSTORE_USERINFO" />
+    <!-- 链路信息权限 -->
     <uses-permission android:name="cybertech.permission.READ_PSTORE_LINKINFO" />
-    <uses-permission android:name="cybertech.permission.READ_PSTORE_LOCATIONINFO" />
-    <uses-permission android:name="cybertech.permission.WRITE_PSTORE_OPERATIONLOG" />
-    <uses-permission android:name="cybertech.permission.READ_PSTORE_LAUNCHERGROUPS" />
+    <!-- 同步时间权限 -->
     <uses-permission android:name="cybertech.permission.READ_PSTORE_SERVER_SYNC_TIME" />
+    <!-- 位置信息权限 -->
+    <uses-permission android:name="cybertech.permission.READ_PSTORE_LOCATIONINFO" />
+    <!-- 基础权限：授权认证等 -->
+    <uses-permission android:name="cybertech.permission.READ_PSTORE" />
+    <!-- 提交操作日志的权限 -->
+    <uses-permission android:name="cybertech.permission.WRITE_PSTORE_OPERATIONLOG" />
+    <!--组件授权-->
+    <uses-permission android:name="cybertech.permission.READ_PSTORE_COMPONENT_AUTHORIZATION" />
 
     <application
         android:name=".MyApplication"
@@ -44,15 +50,18 @@
         <activity
             android:name=".activities.Ac_login"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
-        <activity android:name=".activities.Ac_main"></activity>
+        <activity android:name=".activities.Ac_main">
+
+        </activity>
         <activity android:name=".activities.Ac_personal_track" />
         <activity android:name=".activities.Ac_news_detail" />
         <activity android:name=".activities.Ac_attach" />
+
         <provider
-            android:authorities="com.sunland.hangzhounews.fileprovider"
             android:name="android.support.v4.content.FileProvider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:authorities="com.sunland.hangzhounews.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/attach_path" />

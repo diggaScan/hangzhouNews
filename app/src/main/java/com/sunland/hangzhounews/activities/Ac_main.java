@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sunland.hangzhounews.CheckSelfPermissionActivity;
 import com.sunland.hangzhounews.Frg_news_list;
 import com.sunland.hangzhounews.R;
 import com.sunland.hangzhounews.V_config;
@@ -46,7 +45,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class Ac_main extends CheckSelfPermissionActivity implements OnRequestCallback {
+public class Ac_main extends Ac_base implements OnRequestCallback {
 
     @BindView(R.id.region_picker)
     public SpinButton sb_regions;
@@ -224,16 +223,21 @@ public class Ac_main extends CheckSelfPermissionActivity implements OnRequestCal
                         if (list == null || list.isEmpty()) {
                             Toast.makeText(this, "地址列表返回为空", Toast.LENGTH_SHORT).show();
                         } else {
-                            List<String> dateSet = new ArrayList<>();
-                            for (TerritoryInfo info : list) {
-                                dateSet.add(info.getDqmc());
+                            List<String> dataSet = new ArrayList<>();
+                            int position=0;
+                            for(int i=0;i<list.size();i++){
+                                TerritoryInfo info=list.get(i);
+                                dataSet.add(info.getDqmc());
                                 dq_codes.add(info.getDqid());
+                                if(info.getDepcode().substring(0,6).equals(bm_code)){
+                                    position=i;
+                                }
                             }
-                            sb_regions.setDataSet(dateSet);
+                            sb_regions.setDataSet(dataSet);
                             sb_regions.setHeaderTitle("地区选择");
-                            sb_regions.setSelection(0);
+                            sb_regions.setSelection(position);
 
-                            selected_dq_code = dq_codes.get(0);
+                            selected_dq_code = dq_codes.get(position);
                             queryYdjwDataWithoutDia(V_config.NEWS_CATEGORY_LIST_REQNAME);
                         }
                     } else {
