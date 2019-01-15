@@ -224,13 +224,13 @@ public class Ac_main extends Ac_base implements OnRequestCallback {
                             Toast.makeText(this, "地址列表返回为空", Toast.LENGTH_SHORT).show();
                         } else {
                             List<String> dataSet = new ArrayList<>();
-                            int position=0;
-                            for(int i=0;i<list.size();i++){
-                                TerritoryInfo info=list.get(i);
+                            int position = 0;
+                            for (int i = 0; i < list.size(); i++) {
+                                TerritoryInfo info = list.get(i);
                                 dataSet.add(info.getDqmc());
                                 dq_codes.add(info.getDqid());
-                                if(info.getDepcode().substring(0,6).equals(bm_code)){
-                                    position=i;
+                                if (info.getDepcode().substring(0, 6).equals(bm_code)) {
+                                    position = i;
                                 }
                             }
                             sb_regions.setDataSet(dataSet);

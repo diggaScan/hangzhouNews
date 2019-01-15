@@ -6,6 +6,7 @@ import java.util.List;
 
 public class TerritoryResponseBean extends ResultBase {
 
+    private String depcode;
     private List<TerritoryInfo> territoryInfo;
 
     public List<TerritoryInfo> getTerritoryInfo() {
@@ -14,5 +15,13 @@ public class TerritoryResponseBean extends ResultBase {
 
     public void setTerritoryInfo(List<TerritoryInfo> territoryInfo) {
         this.territoryInfo = territoryInfo;
+    }
+
+    public String getDepcode() {
+        return depcode;
+    }
+
+    public void setDepcode(String depcode) {
+        this.depcode = depcode;
     }
 }

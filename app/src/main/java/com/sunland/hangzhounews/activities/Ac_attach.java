@@ -133,13 +133,18 @@ public class Ac_attach extends Ac_base {
         int id = item.getItemId();
         switch (id) {
             case R.id.trash:
-                initAlertDialog();
+                if (sub_files.size() > 0) {
+                    initAlertDialog();
+                } else {
+                    Toast.makeText(Ac_attach.this, "当前无附件", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void initAlertDialog() {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this)
                 .setTitle("提示")
                 .setMessage("是否删除所有附件")

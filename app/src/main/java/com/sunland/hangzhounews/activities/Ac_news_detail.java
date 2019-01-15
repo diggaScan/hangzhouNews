@@ -157,6 +157,13 @@ public class Ac_news_detail extends Ac_base implements OnRequestCallback {
         webSettings.setLoadWithOverviewMode(true);//设置webview加载的页面的模式
         webSettings.setDisplayZoomControls(false);//隐藏webview缩放按钮
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);//设置js可以直接打开窗口，如window.open()，默认为false
+        webSettings.setSupportZoom(true);//是否可以缩放，默认true
+        webSettings.setAppCacheEnabled(true);//是否使用缓存
+        webSettings.setDomStorageEnabled(true);//开启本地DOM存储
+        webSettings.setLoadsImagesAutomatically(true); // 加载图片
+        webSettings.setMediaPlaybackRequiresUserGesture(false);//播放音频，多媒体需要用户手动？设
+
         wv_news.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -189,6 +196,24 @@ public class Ac_news_detail extends Ac_base implements OnRequestCallback {
                 super.onPageStarted(view, url, favicon);
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        wv_news.clearCache(true);
+        wv_news.clearFormData();
+        wv_news.clearMatches();
+        wv_news.clearSslPreferences();
+        wv_news.clearDisappearingChildren();
+        wv_news.clearHistory();
+        //@Deprecated
+        //clearView();
+        wv_news.clearAnimation();
+        wv_news.loadUrl("about:blank");
+        wv_news.removeAllViews();
+        wv_news.freeMemory();
+        wv_news.destroy();
+        super.onDestroy();
     }
 
     @OnClick({R.id.home_image, R.id.collect_button})
@@ -449,7 +474,6 @@ public class Ac_news_detail extends Ac_base implements OnRequestCallback {
 
         public MJavaScriptInterface(Context context) {
             this.context = context;
-
         }
 
         @android.webkit.JavascriptInterface

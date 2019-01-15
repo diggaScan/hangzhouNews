@@ -106,7 +106,7 @@ public class Rv_NewsList_Adapter extends RecyclerView.Adapter<Rv_NewsList_Adapte
         myViewHolder.tv_title.setText(info.getTitle());
         myViewHolder.tv_add_time.setText(info.getAddTime().substring(0, 10));
         String src = String.valueOf(info.getEditname());
-        if (src == null || src.isEmpty()) {
+        if (src == null || src.isEmpty()||src=="null") {
             myViewHolder.tv_src.setVisibility(View.GONE);
         } else {
             myViewHolder.tv_src.setText(src);

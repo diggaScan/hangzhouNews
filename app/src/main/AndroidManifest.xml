@@ -47,6 +47,7 @@
                 <category android:name="${PLATEFORM_VALUE}.intent.category.${CATEGORY_VALUE}" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activities.Ac_login"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>

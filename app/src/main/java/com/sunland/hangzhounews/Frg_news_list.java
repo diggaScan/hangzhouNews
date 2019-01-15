@@ -29,7 +29,6 @@ import com.sunlandgroup.network.OnRequestCallback;
 import com.sunlandgroup.network.RequestManager;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -47,6 +46,7 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
     public DragToRefreshView d2r_refresh;
     @BindView(R.id.loading_icon)
     public RelativeLayout rl_loading;
+
     private RequestManager mRequestManager;
     private String dqid;
     private int lbid;
@@ -139,7 +139,7 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
         onResumed = true;
         if (isHopBack) {
             isHopBack = false;
-        } else if (isVisible) {
+        } else if (isVisible && !hasCached) {
             queryYdjwData();
             rl_loading.setVisibility(View.VISIBLE);
         }
@@ -261,10 +261,10 @@ public class Frg_news_list extends Fragment implements OnRequestCallback {
                 dataSet.addAll(list);
                 adapter.notifyItemRangeInserted(dataSet.size(), list.size());
             } else if (list.get(0).getNewsid().compareTo(dataSet.get(0).getNewsid()) > 0) {
-                for (int i = 0; dataSet.get(0).getNewsid().compareTo(list.get(i).getNewsid()) <= 0; i++) {
-                    dataSet.add(list.get(i));
-                }
-                Collections.sort(dataSet);
+//                for (int i = 0; dataSet.get(0).getNewsid().compareTo(list.get(i).getNewsid()) <= 0; i++) {
+                dataSet.addAll(list);
+
+//                Collections.sort(dataSet);
                 adapter.notifyDataSetChanged();
             }
         }
